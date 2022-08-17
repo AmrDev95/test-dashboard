@@ -1,0 +1,103 @@
+<section class="middle-menu mx-auto p-3 bg-white position-relative overflow-auto">
+    <div class="w-100 d-flex justify-content-between align-items-center py-3 border-bottom border-light border-2">
+        <h3 class="my-auto"><i class="fa-brands fa-bitcoin text-warning fs-1"></i> {{activeCurrency}}</h3>
+        <button (click)="changeCoin()" class="btn btn-primary bg-theme btn-sm">Change Currency</button>
+    </div>
+
+    <!-- Groups Section -->
+    <div *ngIf="isBuyActive" class="w-100 border-bottom border-light border-2 m-0 p-0">
+        <ul class="list-unstyled d-flex align-items-center">
+            <li class="border border-2 border-ul border rounded-start cursor-pointer">All</li>
+            <li *ngFor="let group of groups; index as i" [ngClass]="i==groups.length-1? 'rounded-end':''"  class="border border-2 border-ul border-start-0 cursor-pointer">{{group.group_name}}</li>
+        </ul>
+    </div>
+
+    <!-- Buy/sell selector -->
+    <div class="w-100 mt-3">
+        <button (click)="activateBuy()" [ngClass]="isBuyActive? 'active-button':''" class="btn border border-dark rounded-0 rounded-start w-50">Buy</button>
+        <button (click)="activateSell()" [ngClass]="!isBuyActive? 'active-button':''" class="btn border border-dark w-50 rounded-0 rounded-end">Sell</button>
+    </div>
+
+    <div class="w-50 mt-4">
+        <button (click)="activateMarket()" [ngClass]="isMarketActive? 'active-button':'' " class="border border-light rounded-0 rounded-start w-33 py-1">Market</button>
+        <button (click)="activateLimit()" [ngClass]="isBuyActive? 'rounded-end':''" [ngClass]="isLimitActive?'active-button':''" class="border border-light w-33 rounded-0 py-1">Limit</button>
+        <button (click)="enableOco()" [ngClass]="isOcoEnabled?'active-button':''" *ngIf="!isBuyActive" class="border border-light w-33 rounded-0 rounded-end py-1">OCO</button>
+    </div>
+
+    <div class="w-100 mt-5 d-flex">
+        <div class="me-2">
+            <label for="">Price now</label>
+            <input [(ngModel)]="currentPrice" [disabled]="isMarketActive" type="text" class="form-control">
+        </div>
+
+        <div class="ms-2">
+            <label for="" class="w-100 d-flex justify-content-between align-items-center">
+                <span>Percent</span>
+                <span>%</span>
+            </label>
+            <input [(ngModel)]="percentage" type="number" step="1" class="form-control">
+            <div *ngIf="percentage >100 || percentage <=0" class="text-danger"><i class="fa-solid fa-circle-xmark text-danger me-2"></i>Must be 1 to 100</div>
+        </div>
+    </div>
+
+
+    <div *ngIf="isBuyActive || isOcoEnabled">
+        <div *ngFor="let item of currentTargets; index as i" class="w-100 mt-5 d-flex">
+            <div class="me-2">
+                <label for="">Target-{{i+1}}</label>
+                <input [(ngModel)]="targetValues[i]" type="text" class="form-control">
+            </div>
+    
+            <div class="ms-2">
+                <label for="" class="w-100 d-flex justify-content-between align-items-center">
+                    <span>Percent</span>
+                    <span>%</span>
+                </label>
+                <input [(ngModel)]="targetPercentage[i]" type="number" step="1" class="form-control">
+                <div *ngIf="targetPercentage[i]>100 || targetPercentage[i]<=0" class="text-danger"><i class="fa-solid fa-circle-xmark text-danger me-2"></i>Must be 1 to 100</div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="currentTargets.length>0" class="w-100 mt-5 d-flex">
+        <div class="me-2">
+            <label>Stop Price</label>
+            <input type="text" class="form-control">
+        </div>
+
+        <div class="ms-2">
+            <label for="" class="w-100 d-flex justify-content-between align-items-center">
+                <span>Stop Limit</span>
+            </label>
+            <input type="number" class="form-control">
+            <div *ngIf="percentage >100 || percentage <=0" class="text-danger"><i class="fa-solid fa-circle-xmark text-danger me-2"></i>Must be 1 to 100</div>
+        </div>
+    </div>
+
+
+
+
+
+
+    
+
+    <div *ngIf="isBuyActive || isOcoEnabled" class="w-100 mt-2">
+        <button (click)="incrementTarget()" [disabled]="percentage>100 || percentage<=0 || currentTargets.length>=5" class="btn btn-secondary py-2 w-100">Add Target And Stop</button>
+    </div>
+
+    <div class="w-100 mt-5 pt-5 d-flex justify-content-center align-items-center">
+        <button *ngIf="isBuyActive" class="btn btn-primary bg-theme w-75">Buy</button>
+        <button *ngIf="!isBuyActive" class="btn btn-primary bg-theme w-75">Sell</button>
+    </div>
+</section>
+
+<section *ngIf="changeCurrency" class="currency-wrapper d-flex justify-content-center align-items-center">
+    <div class="currency-menu p-5">
+        <div class="d-flex flex-row-reverse"><i (click)="closeMenu()" class="fa-solid fa-circle-xmark fs-2"></i></div>
+        <input [(ngModel)]="searchTerm" type="text" class="form-control mt-5" placeholder="search for currency...">
+        <h5 class="mt-5">Results</h5>
+        <div class="row">
+            <div *ngFor="let coin of coinList|search:searchTerm" (click)="setCurrentCoin(coin)" class="col-lg-1 col-3 my-3 currency-hover text-center py-2">{{coin}}</div>
+        </div>
+    </div>
+</section>

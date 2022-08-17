@@ -1,0 +1,74 @@
+.middle-menu{
+    width: 400px;
+    height: 450px;
+}
+
+.bg-theme{
+    background-color: rgb(0,158,247) !important;
+}
+
+li{
+    padding: 5px 5px;
+    margin: 15px 0px;
+    
+}
+
+.active-button{
+    background-color: rgb(0,158,247) !important;
+    color: white !important;
+}
+
+.action-button{
+    position: absolute;
+    bottom: 20px;
+    
+}
+
+.w-33{
+    width: 33% !important;
+}
+
+.border-ul{
+    color: rgb(107,123,139) !important;
+}
+
+.currency-wrapper{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba($color: #000000, $alpha: 0.7);
+    top: 0;
+    left: 0;
+    z-index: 9999999999999999999;
+}
+
+.currency-menu{
+    width: 80%;
+    height: 80%;
+    background-color: white;
+    overflow: auto;
+}
+
+.currency-hover:hover{
+    background-color: rgb(0,158,247) !important;
+    color: white !important;
+    cursor: pointer;
+}
+
+.fa-circle-xmark{
+    cursor: pointer;
+}
+
+.cursor-pointer{
+    cursor: pointer;
+}
+
+.fa-circle-xmark:hover{
+    color: rgb(0,158,247);
+}
+
+@media screen and (min-width:100px) and (max-width:450px) {
+    .middle-menu{
+        width: 85% !important;
+    }
+}
